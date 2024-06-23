@@ -7,62 +7,75 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import { MenuItem, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import logo from "../homePage/assets/logo.png";
 
-const pages = ["О МУЗЕЕ", "НАУЧНАЯ ДЕЯТ.", "КОЛЛЕКЦИИ", "ПОССЕТИТЕЛЯМ"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
-function ResponsiveAppBar() {
+function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const pages = [
+    { id: 1, title: "Artists", link: "/artists" },
+    { id: 2, title: "Products", link: "/products" },
+    { id: 3, title: "About", link: "/about" },
+    { id: 3, title: "Admin", link: "/admin" },
+  ];
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{ backgroundColor: "white", boxShadow: "none" }}
+    >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <img src={logo} alt="Logo" style={{ marginRight: 10, height: 40 }} />
-          {/* <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+        <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+          <Link to="/">
+            <img
+              src={logo}
+              alt="Логотип"
+              style={{ marginRight: 20, height: 50 }}
+            />
+          </Link>
+
+          <Box
             sx={{
-              mr: 2,
+              flexGrow: 1,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              justifyContent: "center",
             }}
           >
-            LOGO
-          </Typography> */}
+            {pages.map((page) => (
+              <Link
+                key={page.id}
+                to={page.link}
+                style={{ textDecoration: "none", margin: "0 15px" }}
+              >
+                <Typography
+                  sx={{
+                    color: "black",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  {page.title}
+                </Typography>
+              </Link>
+            ))}
+          </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="menu"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -89,75 +102,51 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.id} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    <Link
+                      to={page.link}
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      {page.title}
+                    </Link>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Link to="/cart" style={{ color: "black", marginRight: "20px" }}>
+              <IconButton>
+                <AddShoppingCartIcon />
               </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            </Link>
+            <TextField
+              fullWidth
+              label="search..."
+              variant="standard"
+              onChange={(e) => e.target.value}
+            />
+            {/* <Link
+              to="/login"
+              style={{ color: "black", textDecoration: "none" }}
+            > */}
+            {/* <Typography
+                sx={{
+                  textTransform: "uppercase",
+                  fontWeight: "bold",
+                  fontSize: "0.875rem",
+                }}
+              >
+                Войти
+              </Typography>
+            </Link> */}
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+
+export default Navbar;
