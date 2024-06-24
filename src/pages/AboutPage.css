@@ -1,0 +1,24 @@
+.moving-images-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.moving-image {
+  position: absolute;
+  animation: moveImage 8s linear infinite;
+  height: 200px;
+  width: 300px;
+}
+
+@keyframes moveImage {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(100px, 50px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}

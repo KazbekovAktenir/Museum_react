@@ -25,7 +25,7 @@ function Navbar() {
 
   const pages = [
     { id: 1, title: "Artists", link: "/artists" },
-    { id: 2, title: "Products", link: "/products" },
+    { id: 2, title: "Collections", link: "/products" },
     { id: 3, title: "About", link: "/about" },
     { id: 3, title: "Admin", link: "/admin" },
   ];
